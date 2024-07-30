@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { AuthContext } from '../store/auth-context';
 
 function WelcomeScreen() {
-  const [fetchedMessage, setFetchedMesssage] = useState('');
+  const [fetchedMessage, setFetchedMessage] = useState('');
+  const navigation = useNavigation();
 
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
@@ -17,7 +19,7 @@ function WelcomeScreen() {
           token
       )
       .then((response) => {
-        setFetchedMesssage(response.data);
+        setFetchedMessage(response.data);
       });
   }, [token]);
 
@@ -26,6 +28,10 @@ function WelcomeScreen() {
       <Text style={styles.title}>Welcome!</Text>
       <Text>You authenticated successfully!</Text>
       <Text>{fetchedMessage}</Text>
+      <Button
+        title="Go to All Places"
+        onPress={() => navigation.navigate('Places', { screen: 'AllPlaces' })}
+      />
     </View>
   );
 }
