@@ -25,7 +25,7 @@ public class Place {
     private String address;
 
     private Double lat;
-  
+
     private Double lng;
     @Column(nullable = false)
     private String userEmail;
