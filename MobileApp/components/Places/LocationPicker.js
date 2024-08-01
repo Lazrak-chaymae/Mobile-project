@@ -44,6 +44,7 @@ function LocationPicker({ onPickLocation }) {
         );
         onPickLocation({ ...pickedLocation, address: address });
       }
+      
     }
 
     handleLocation();
@@ -77,10 +78,12 @@ function LocationPicker({ onPickLocation }) {
     }
 
     const location = await getCurrentPositionAsync();
+    console.log(location);
     setPickedLocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
+   
   }
 
   function pickOnMapHandler() {
@@ -90,6 +93,7 @@ function LocationPicker({ onPickLocation }) {
   let locationPreview = <Text>No location picked yet.</Text>;
 
   if (pickedLocation) {
+    console.log(pickedLocation)
     locationPreview = (
       <Image
         style={styles.image}
@@ -105,7 +109,7 @@ function LocationPicker({ onPickLocation }) {
       <View style={styles.mapPreview}>{locationPreview}</View>
       <View style={styles.actions}>
         <OutlinedButton icon="location" onPress={getLocationHandler}>
-          Locate User
+          Use my location
         </OutlinedButton>
         <OutlinedButton icon="map" onPress={pickOnMapHandler}>
           Pick on Map

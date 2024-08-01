@@ -1,117 +1,37 @@
-import * as SQLite from 'expo-sqlite';
+import axios from "axios"; 
 
-import { Place } from '../models/place';
+const API_BASE_URL = 'http://localhost:8024/api';
 
-const database = SQLite.openDatabaseSync('places.db');
-
-export function init() {
-  const promise = new Promise((resolve, reject) => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS places (
-          id INTEGER PRIMARY KEY NOT NULL,
-          title TEXT NOT NULL,
-          imageUri TEXT NOT NULL,
-          address TEXT NOT NULL,
-          lat REAL NOT NULL,
-          lng REAL NOT NULL
-        )`,
-        [],
-        () => {
-          resolve();
-        },
-        (_, error) => {
-          reject(error);
-        }
-      );
-    });
-  });
-
-  return promise;
+// Insert a place
+export async function insertPlace(place) {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/place`, place);
+    return response.data;
+    return result;
+  } catch (error) {
+    console.error('Failed to insert place', error);
+    throw error;
+  }
 }
 
-export function insertPlace(place) {
-  const promise = new Promise((resolve, reject) => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        `INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)`,
-        [
-          place.title,
-          place.imageUri,
-          place.address,
-          place.location.lat,
-          place.location.lng,
-        ],
-        (_, result) => {
-          resolve(result);
-        },
-        (_, error) => {
-          reject(error);
-        }
-      );
-    });
-  });
-
-  return promise;
+// Fetch all places
+export async function fetchPlaces(userEmail) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/places/${userEmail}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch places', error);
+    throw error;
+  }
 }
 
-export function fetchPlaces() {
-  const promise = new Promise((resolve, reject) => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM places',
-        [],
-        (_, result) => {
-          const places = [];
-
-          for (const dp of result.rows._array) {
-            places.push(
-              new Place(
-                dp.title,
-                dp.imageUri,
-                {
-                  address: dp.address,
-                  lat: dp.lat,
-                  lng: dp.lng,
-                },
-                dp.id
-              )
-            );
-          }
-          resolve(places);
-        },
-        (_, error) => {
-          reject(error);
-        }
-      );
-    });
-  });
-
-  return promise;
-}
-
-export function fetchPlaceDetails(id) {
-  const promise = new Promise((resolve, reject) => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM places WHERE id = ?',
-        [id],
-        (_, result) => {
-          const dbPlace = result.rows._array[0];
-          const place = new Place(
-            dbPlace.title,
-            dbPlace.imageUri,
-            { lat: dbPlace.lat, lng: dbPlace.lng, address: dbPlace.address },
-            dbPlace.id
-          );
-          resolve(place);
-        },
-        (_, error) => {
-          reject(error);
-        }
-      );
-    });
-  });
-
-  return promise;
+// Fetch place details by id
+export async function fetchPlaceDetails(id) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/place/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch place details', error);
+    throw error;
+  }
 }

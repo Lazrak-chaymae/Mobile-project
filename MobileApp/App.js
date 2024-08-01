@@ -15,7 +15,6 @@ import IconButton from "./components/ui/IconButton";
 import AllPlaces from "./screens/AllPlaces";
 import AddPlace from "./screens/AddPlace";
 import Map from "./screens/Map";
-import { init } from "./util/database";
 import PlaceDetails from "./screens/PlaceDetails";
 
 const Stack = createNativeStackNavigator();
@@ -137,16 +136,7 @@ function Root() {
     fetchToken();
   }, []);
 
-  useEffect(() => {
-    init()
-      .then(() => {
-        console.log("Database initialized");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
+  
   if (isTryingLogin) {
     return <AppLoading />;
   }
