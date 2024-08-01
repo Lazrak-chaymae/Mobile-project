@@ -12,10 +12,15 @@ MyPlace is a mobile application built with React Native and Spring Boot, designe
 
 # Technologies Used
 **Frontend:** React Native, Expo
+
 **Backend:** Spring Boot, MySQL
+
 **Authentication:** Firebase Authentication
+
 **API Integration:** Axios for handling API requests
+
 **Location Services:** Expo Location, Google Maps API for geocoding and map previews
+
 
 # Issues and Troubleshooting
 **1.Google API Key**
