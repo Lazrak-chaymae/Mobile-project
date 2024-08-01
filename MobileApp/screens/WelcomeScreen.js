@@ -1,35 +1,21 @@
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { AuthContext } from '../store/auth-context';
 
 function WelcomeScreen() {
-  const [fetchedMessage, setFetchedMessage] = useState('');
   const navigation = useNavigation();
 
-  const authCtx = useContext(AuthContext);
-  const token = authCtx.token;
-
-  useEffect(() => {
-    axios
-      .get(
-        'https://mobile-app-55d0e-default-rtdb.firebaseio.com/message.json?auth=' +
-          token
-      )
-      .then((response) => {
-        setFetchedMessage(response.data);
-      });
-  }, [token]);
 
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome!</Text>
-      <Text>You authenticated successfully!</Text>
-      <Text>{fetchedMessage}</Text>
+      <Text>You have successfully logged in.</Text>
+      <Text style={styles.description}>
+        Start by exploring your favorite places or add new ones to your collection. 
+        Click the button below to get started!
+      </Text>
       <Button
-        title="Go to All Places"
+        title="My Favorite Places"
         onPress={() => navigation.navigate('Places', { screen: 'AllPlaces' })}
       />
     </View>
@@ -49,5 +35,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
+  },
+  description: {
+    fontSize: 16,
+    marginVertical: 20,
+    textAlign: 'center',
+    paddingHorizontal: 20,
   },
 });

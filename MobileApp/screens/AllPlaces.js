@@ -6,12 +6,12 @@ import { fetchPlaces } from '../util/database';
 
 function AllPlaces({ route }) {
   const [loadedPlaces, setLoadedPlaces] = useState([]);
-
+  const userEmail = "test@gmail.com";
   const isFocused = useIsFocused();
 
   useEffect(() => {
     async function loadPlaces() {
-      const places = await fetchPlaces();
+      const places = await fetchPlaces(userEmail);
       setLoadedPlaces(places);
     }
 

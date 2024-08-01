@@ -45,13 +45,16 @@ function ImagePicker({ onTakeImage }) {
       aspect: [16, 9],
       quality: 0.5,
     });
+    console.log(image); 
+    const imageUri = image.assets[0].uri;
 
-    setPickedImage(image.uri);
-    onTakeImage(image.uri);
+    setPickedImage(imageUri);
+    onTakeImage(imageUri);
+    console.log(imageUri);
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;
-
+  
   if (pickedImage) {
     imagePreview = <Image style={styles.image} source={{ uri: pickedImage }} />;
   }
